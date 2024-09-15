@@ -3,7 +3,8 @@
 
 ### Overview
 
-TekWay is an innovative platform that allows you to learn the skills for your tech career in an interactive way. 
+TekWay is a NextJS app that allows you to learn skills for your tech career in an interactive way. 
+
 
 
 
