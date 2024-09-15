@@ -9,6 +9,9 @@ import { MessageCircle, CheckCircle } from 'lucide-react'
 import { useChat } from 'ai/react'
 import { nanoid } from 'nanoid'
 import { careerPaths, Skill, CareerPath } from '../config/career-paths'
+import { useEffect } from 'react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
 
 function CartoonButton({ skill, onClick, isSelected }: { skill: Skill, onClick: () => void, isSelected: boolean }) {
   return (
@@ -54,8 +57,20 @@ interface RoadmapProps {
 export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
   const { handleSubmit, setMessages } = chatHelpers
   const [selectedButton, setSelectedButton] = useState<string | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+  const [selectedLevel, setSelectedLevel] = useState("1")
 
   const careerPath = careerPaths[careerPathId]
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
 
   if (!careerPath) {
     return <div>Career path not found</div>
@@ -71,13 +86,32 @@ export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
     setSelectedButton(null);
   }
 
+  const handleLevelChange = (level: string) => {
+    setSelectedLevel(level)
+  }
+
   return (
-    <Card className="w-full max-w-3xl mx-auto overflow-hidden">
-      <CardContent className="px-20 pt-30">
-        <h2 className="text-2xl font-bold mb-4">{careerPath.name} Roadmap</h2>
-        <ScrollArea className="h-[600px]">
+    <Card className="w-full h-full overflow-hidden">
+      <CardContent className="p-10 h-full">
+      <h2 className="text-2xl font-bold mb-4">{careerPath.name} Roadmap</h2>
+
+      <div className="flex flex-row justify-between items-center">
+      <div className="flex items-center space-x-4 z-10">
+        <Select onValueChange={handleLevelChange} value={selectedLevel}>
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="Select Level" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">Level 1</SelectItem>
+                <SelectItem value="2">Level 2</SelectItem>
+                <SelectItem value="3">Level 3</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <ScrollArea className="h-[calc(100%-2rem)]">
           <div className="relative flex flex-col items-center px-12 py-8">
-            {careerPath.skills.map((skill, index) => (
+            {careerPath.skills[selectedLevel].map((skill, index) => (
               <div
                 key={skill.name}
                 className={`mb-8 ${index % 2 === 0 ? 'self-start' : 'self-end'}`}

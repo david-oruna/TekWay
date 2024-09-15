@@ -54,17 +54,17 @@ export function ChatBoxComponent({ chatHelpers }) {
   }, [messages])
 
   return (
-    <Card className={`w-full max-w-md mx-auto ${darkMode ? 'dark' : ''}`}>
+    <Card className={`w-full h-full flex flex-col ${darkMode ? 'dark' : ''}`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-2xl font-bold">TekChat</CardTitle>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 z-10">
           <Sun className="h-4 w-4" />
           <Switch checked={darkMode} onCheckedChange={setDarkMode} />
           <Moon className="h-4 w-4" />
         </div>
       </CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[450px] pr-4" ref={scrollAreaRef}>
+      <CardContent className="flex-grow overflow-hidden">
+        <ScrollArea className="h-full pr-4" ref={scrollAreaRef}>
           {messages.map((message, index) => (
             <div key={message.id} className={`mb-4 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
               <div className={`inline-block p-2 rounded-lg ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>

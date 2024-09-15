@@ -3,27 +3,39 @@ export interface Skill {
   logo: string; // Change this to string, not StaticImageData
 }
 
-export interface CareerPath {
+
+export interface SkillCategory {
   name: string;
   skills: Skill[];
+}
+
+export interface CareerPath {
+  name: string;
+  skills: {
+    [key: string]: Skill[];
+  };
 }
 
 export const careerPaths: Record<string, CareerPath> = {
   frontend: {
     name: 'Frontend Developer',
-    skills: [
-      { name: 'HTML', logo: '/images/logos/html.png' },  // Use direct path
-      { name: 'CSS', logo: '/images/logos/css.png' },    // Use direct path
-      { name: 'JavaScript', logo: '/images/logos/js.png' },  // Use direct path
-      { name: 'React', logo: '/images/logos/react.png' },  // Use direct path
-    ],
-  },
-  backend: {
-    name: 'Backend Developer',
-    skills: [
-      { name: 'Node.js', logo: '/images/logos/node.png' },  // Use direct path
-      { name: 'Python', logo: '/images/logos/python.png' }, // Use direct path
-    ],
+    skills: {
+      '1': [
+        { name: 'HTML', logo: '/images/logos/html.png' },
+        { name: 'CSS', logo: '/images/logos/css.png' },
+        {name: 'JavaScript', logo: '/images/logos/javascript.svg'},
+        {name: 'Git / GitHub', logo: '/images/logos/gitforwindows.svg'},
+
+      ],
+      '2': [
+        { name: 'JavaScript', logo: '/images/logos/js.png' },
+        { name: 'React Basics', logo: '/images/logos/react.png' },
+      ],
+      '3': [
+        { name: 'Advanced React', logo: '/images/logos/react.png' },
+        { name: 'TypeScript', logo: '/images/logos/typescript.png' },
+      ],
+    },
   },
   // ... add more career paths
 };
