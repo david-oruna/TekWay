@@ -14,27 +14,32 @@ import { useEffect } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 
-function CartoonButton({ skill, onClick, isSelected }: { skill: Skill, onClick: () => void, isSelected: boolean }) {
+function CartoonButton({ skill, onClick, isSelected, isComplete }: { skill: Skill, onClick: () => void, isSelected: boolean, isComplete: boolean }) {
   return (
     <div className="flex flex-col items-center">
       <button
         onClick={onClick}
+        aria-label={`Select ${skill.name}`}
         className={`
-          w-24 h-24 rounded-full text-2xl font-bold text-primary-foreground
+          w-24 h-24 rounded-full text-2xl font-bold
           shadow-[inset_0_-8px_0_0_rgba(0,0,0,0.1),0_4px_0_0_rgba(0,0,0,0.2)]
           transition-all duration-100 ease-in-out relative
-          ${isSelected || 'hover:'}transform ${isSelected || 'hover:'}translate-y-1 ${isSelected || 'hover:'}shadow-[inset_0_-4px_0_0_rgba(0,0,0,0.1),0_2px_0_0_rgba(0,0,0,0.2)]
+          ${isComplete ? 'bg-gray-800 text-white' : 'bg-white text-primary-foreground'}
+          ${isSelected 
+            ? 'transform translate-y-1 shadow-[inset_0_-4px_0_0_rgba(0,0,0,0.1),0_2px_0_0_rgba(0,0,0,0.2)]' 
+            : 'hover:transform hover:translate-y-1 hover:shadow-[inset_0_-4px_0_0_rgba(0,0,0,0.1),0_2px_0_0_rgba(0,0,0,0.2)]'}
         `}
       >
         <div 
-          className="
-            absolute inset-2 bg-white rounded-full 
+          className={`
+            absolute inset-2 rounded-full 
             flex items-center justify-center
             shadow-[inset_0px_5px_1px_1px_rgba(0,0,0,0.25)]
-          "
+            ${isComplete ? 'bg-gray-700' : 'bg-white'}
+          `}
         >
           <Image 
-            src={skill.logo} 
+            src={isComplete ? skill.logocolor : skill.logobw} 
             alt={skill.name} 
             width={40} 
             height={40} 
@@ -59,6 +64,7 @@ export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
   const { handleSubmit, setMessages } = chatHelpers
   const [selectedButton, setSelectedButton] = useState<string | null>(null)
   const [selectedLevel, setSelectedLevel] = useState("1")
+  const [completedSkills, setCompletedSkills] = useState<Set<string>>(new Set())
 
   const careerPath = careerPaths[careerPathId]
 
@@ -74,15 +80,20 @@ export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
   }
 
   const handleOptionSelect = (option: string, skillName: string) => {
-    const message = `I want to ${option} about ${skillName}`
+    const message = option
     chatHelpers.handleSubmit(message);
     setSelectedButton(null);
+  
+    if (option.includes("I've mastered")) {
+      setCompletedSkills(prev => new Set(prev).add(skillName))
+    }
   }
 
   const handleLevelChange = (level: string) => {
     setSelectedLevel(level)
   }
 
+  
   return (
     <Card className="w-full h-full overflow-hidden">
       <CardContent className="p-10 h-full">
@@ -119,10 +130,15 @@ export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
                         skill={skill}
                         onClick={() => handleButtonClick(skill.name)}
                         isSelected={selectedButton === skill.name}
+                        isComplete={completedSkills.has(skill.name)}
                       />
                       {selectedButton === skill.name && (
                         <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 z-10">
-                          <FloatingWindow onClose={(option) => handleOptionSelect(option, skill.name)} skill={skill.name} />
+                          <FloatingWindow 
+                            onClose={(option) => handleOptionSelect(option, skill.name)} 
+                            skill={skill.name} 
+                            isComplete={completedSkills.has(skill.name)}
+                          />
                         </div>
                       )}
                     </div>
@@ -141,11 +157,11 @@ function FloatingWindow({ onClose, skill }: { onClose: (option: string, skill: s
   return (
     <div className="bg-popover p-4 rounded-lg shadow-lg w-48">
       <div className="flex flex-col space-y-2">
-        <Button variant="outline" size="sm" onClick={() => onClose('chat', skill)}>
+        <Button variant="outline" size="sm" onClick={() => onClose(`I want to chat about ${skill}`, skill)}>
           <MessageCircle className="w-4 h-4 mr-2" />
           Chat
         </Button>
-        <Button variant="outline" size="sm" onClick={() => onClose('complete', skill)}>
+        <Button variant="outline" size="sm" onClick={() => onClose(`I've mastered ${skill} 🙌`, skill)}>
           <CheckCircle className="w-4 h-4 mr-2" />
           Mark as complete
         </Button>

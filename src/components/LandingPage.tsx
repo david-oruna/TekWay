@@ -84,10 +84,8 @@ export function LandingPageComponent({ onCareerSelect }: LandingPageProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="frontend">Frontend Developer</SelectItem>
-                <SelectItem value="backend">Backend Developer</SelectItem>
-                <SelectItem value="fullstack">Full Stack Developer</SelectItem>
-                <SelectItem value="devops">DevOps Engineer</SelectItem>
-                <SelectItem value="data">Data Scientist</SelectItem>
+    
+                <SelectItem value="datascience">Data Scientist</SelectItem>
               </SelectContent>
             </Select>
           </div>

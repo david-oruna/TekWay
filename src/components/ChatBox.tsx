@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Switch } from "@/components/ui/switch"
-import { Moon, Sun, Send } from 'lucide-react'
+import { Moon, Sun, Send, Plus } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -28,9 +28,15 @@ export function ChatBoxComponent({ chatHelpers }) {
   const scrollAreaRef = useRef<HTMLDivElement>(null)
 
   const handleOptionClick = (option: string) => {
-    const userMessage = { id: nanoid(), role: 'user', content: option };
-    setMessages(prevMessages => [...prevMessages, userMessage]);
     chatHelpers.handleSubmit(option);
+    setShowLevels(false);
+    setShowOptions(false);
+  }
+
+  const handleClearChat = () => {
+    setMessages([]);
+    handleInputChange({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
+    // If you have an initial message from the AI, you might want to add it here
   }
 
   useEffect(() => {
@@ -113,21 +119,26 @@ export function ChatBoxComponent({ chatHelpers }) {
         </ScrollArea>
       </CardContent>
       <CardFooter>
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            chatHelpers.handleSubmit(input);
-          }} className="flex w-full items-center space-x-2 z-10">
-            <Input 
-              type="text" 
-              placeholder="Type your message..." 
-              value={input} 
-              onChange={handleInputChange}
-            />
-            <Button type="submit" size="icon">
-              <Send className="h-4 w-4" />
-            </Button>
-          </form>
-          </CardFooter>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          chatHelpers.handleSubmit(input);
+          chatHelpers.setInput('');
+        }} className="flex w-full items-center space-x-2 z-10">
+           <Button type="button" size="icon" variant="outline" onClick={handleClearChat} title="New Chat">
+            <Plus className="h-4 w-4" />
+          </Button>
+          <Input 
+            type="text" 
+            placeholder="Type your message..." 
+            value={input} 
+            onChange={handleInputChange}
+          />
+          <Button type="submit" size="icon">
+            <Send className="h-4 w-4" />
+          </Button>
+         
+        </form>
+      </CardFooter>
     </Card>
   )
 }
