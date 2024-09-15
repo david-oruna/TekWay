@@ -6,9 +6,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { MessageCircle, CheckCircle } from 'lucide-react'
-import { careerPaths, Skill, CareerPath, SkillCategory } from '../config/career-paths'
+import { careerPaths, Skill, SkillCategory } from '../config/career-paths'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
+import { Message } from 'ai'
 
 function CartoonButton({ skill, onClick, isSelected, isComplete }: { skill: Skill, onClick: () => void, isSelected: boolean, isComplete: boolean }) {
   return (
@@ -51,13 +51,12 @@ function CartoonButton({ skill, onClick, isSelected, isComplete }: { skill: Skil
 interface RoadmapProps {
   chatHelpers: {
     handleSubmit: (message: string) => void;
-    setMessages: React.Dispatch<React.SetStateAction<any[]>>;
+    setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
   };
   careerPathId: string;
 }
 
 export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
-  const { handleSubmit, setMessages } = chatHelpers
   const [selectedButton, setSelectedButton] = useState<string | null>(null)
   const [selectedLevel, setSelectedLevel] = useState("1")
   const [completedSkills, setCompletedSkills] = useState<Set<string>>(new Set())
@@ -111,7 +110,7 @@ export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
         </div>
         <ScrollArea className="h-[calc(100%-2rem)]">
         <div className="relative flex flex-col items-center px-12 py-8">
-            {careerPath.levels[selectedLevel]?.map((category: SkillCategory, categoryIndex: number) => (
+            {careerPath.levels[selectedLevel]?.map((category: SkillCategory) => (
               <div key={category.name} className="w-full mb-8">
                 <div className="flex items-center mb-4">
                   <div className="flex-grow border-t border-gray-300"></div>
@@ -149,7 +148,7 @@ export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
   )
 }
 
-function FloatingWindow({ onClose, skill }: { onClose: (option: string, skill: string) => void, skill: string }) {
+function FloatingWindow({ onClose, skill, isComplete }: { onClose: (option: string, skill: string) => void, skill: string, isComplete: boolean }) {
   return (
     <div className="bg-popover p-4 rounded-lg shadow-lg w-48">
       <div className="flex flex-col space-y-2">
@@ -157,10 +156,12 @@ function FloatingWindow({ onClose, skill }: { onClose: (option: string, skill: s
           <MessageCircle className="w-4 h-4 mr-2" />
           Chat
         </Button>
-        <Button variant="outline" size="sm" onClick={() => onClose(`I've mastered ${skill} 🙌`, skill)}>
-          <CheckCircle className="w-4 h-4 mr-2" />
-          Mark as complete
-        </Button>
+        {!isComplete && (
+          <Button variant="outline" size="sm" onClick={() => onClose(`I've mastered ${skill} 🙌`, skill)}>
+            <CheckCircle className="w-4 h-4 mr-2" />
+            Mark as complete
+          </Button>
+        )}
       </div>
     </div>
   )

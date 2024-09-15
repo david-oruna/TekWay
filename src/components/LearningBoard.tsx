@@ -6,9 +6,20 @@ import { ChatBoxComponent } from '@/components/ChatBox'
 import { Button } from '@/components/ui/button'
 import { MessageCircle, Map } from 'lucide-react'
 import { nanoid } from 'nanoid'
+import { Message } from 'ai'
+
+interface ChatHelpers {
+  messages: Message[];
+  input: string;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  handleSubmit: (message: string) => void;
+  setInput: React.Dispatch<React.SetStateAction<string>>;
+  reload: () => void;
+}
 
 interface LearningBoardProps {
-  chatHelpers: any;
+  chatHelpers: ChatHelpers;
   careerPathId: string;
 }
 
@@ -28,11 +39,11 @@ export function LearningBoard({ chatHelpers, careerPathId }: LearningBoardProps)
   const handleInteraction = (message: string) => {
     chatHelpers.setMessages(prevMessages => [
       ...prevMessages,
-      { id: nanoid(), role: 'user', content: message }
+      { id: nanoid(), role: 'user', content: message } as Message
     ]);
     chatHelpers.reload();
     if (isMobile) {
-      setActiveView('chat')
+      setActiveView('chat');
     }
   }
 

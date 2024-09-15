@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { ChevronDown, Github, HelpCircle} from "lucide-react"
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface LandingPageProps {
   onCareerSelect: (careerPath: string) => void;
@@ -27,7 +28,7 @@ export function LandingPageComponent({ onCareerSelect }: LandingPageProps) {
     <div className="min-h-screen bg-background flex flex-col items-center justify-between text-foreground relative overflow-visible">
     <div className="absolute top-4 left-10 flex items-center space-x-4">
       <Link href="/" className="flex items-center space-x-2">
-        <img src="/images/logo.svg" alt="TekWay" width={40} height={40} />
+        <Image src="/images/logo.svg" alt="TekWay" width={40} height={40} />
       </Link>
     </div>
 
@@ -49,11 +50,7 @@ export function LandingPageComponent({ onCareerSelect }: LandingPageProps) {
             <DialogHeader>
               <DialogTitle>About TekWay</DialogTitle>
               <DialogDescription>
-                TekWay is an innovative platform designed to guide tech professionals through their career journey. 
-                We provide interactive skill roadmaps tailored to various tech roles, helping you navigate the 
-                ever-evolving landscape of technology careers. Whether you're just starting out or looking to 
-                level up your skills, TekWay offers personalized learning paths, industry insights, and 
-                practical resources to accelerate your professional growth in the tech industry.
+                
               </DialogDescription>
             </DialogHeader>
           </DialogContent>

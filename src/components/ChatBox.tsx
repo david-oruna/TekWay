@@ -10,31 +10,34 @@ import { Moon, Sun, Send, Plus } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { Message } from 'ai'
 
+interface ChatHelpers {
+  messages: Message[];
+  input: string;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  handleSubmit: (message: string) => void;
+  setInput: React.Dispatch<React.SetStateAction<string>>;
+}
 
+export function ChatBoxComponent({ chatHelpers }: { chatHelpers: ChatHelpers }) {
 
-export function ChatBoxComponent({ chatHelpers }: { chatHelpers: any }) {
-  if (!chatHelpers) {
-    console.error('ChatBoxComponent: chatHelpers is undefined')
-    return null // or return a loading state
-  }
-
-  const { messages, input, handleInputChange, setMessages } = chatHelpers
+  const { messages, input, handleInputChange, setMessages, handleSubmit, setInput } = chatHelpers
   const [darkMode, setDarkMode] = useState(false)
   const [showLevels, setShowLevels] = useState(false)
   const [showOptions, setShowOptions] = useState(false)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
 
   const handleOptionClick = (option: string) => {
-    chatHelpers.handleSubmit(option);
+    handleSubmit(option);
     setShowLevels(false);
     setShowOptions(false);
   }
 
   const handleClearChat = () => {
     setMessages([]);
-    handleInputChange({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
-    // If you have an initial message from the AI, you might want to add it here
+    setInput('');
   }
 
   useEffect(() => {
@@ -67,13 +70,13 @@ export function ChatBoxComponent({ chatHelpers }: { chatHelpers: any }) {
       </CardHeader>
       <CardContent className="flex-grow overflow-hidden">
         <ScrollArea className="h-full pr-4" ref={scrollAreaRef}>
-          {messages.map((message: any, index: number) => (
+          {messages.map((message: Message, index: number) => (
             <div key={message.id} className={`mb-4 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
               <div className={`inline-block p-2 rounded-lg ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
                 {message.role === 'assistant' ? (
                   <ReactMarkdown
                     components={{
-                      code({node, inline, className, children, ...props}) {
+                      code({inline, className, children, ...props}) {
                         const match = /language-(\w+)/.exec(className || '')
                         return !inline && match ? (
                           <SyntaxHighlighter
