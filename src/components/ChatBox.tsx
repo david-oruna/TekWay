@@ -13,13 +13,13 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 
 
-export function ChatBoxComponent({ chatHelpers }) {
+export function ChatBoxComponent({ chatHelpers }: { chatHelpers: any }) {
   if (!chatHelpers) {
     console.error('ChatBoxComponent: chatHelpers is undefined')
     return null // or return a loading state
   }
 
-  const { messages, input, handleInputChange, handleSubmit, setMessages } = chatHelpers
+  const { messages, input, handleInputChange, setMessages } = chatHelpers
   const [darkMode, setDarkMode] = useState(false)
   const [showLevels, setShowLevels] = useState(false)
   const [showOptions, setShowOptions] = useState(false)
@@ -67,7 +67,7 @@ export function ChatBoxComponent({ chatHelpers }) {
       </CardHeader>
       <CardContent className="flex-grow overflow-hidden">
         <ScrollArea className="h-full pr-4" ref={scrollAreaRef}>
-          {messages.map((message, index) => (
+          {messages.map((message: any, index: number) => (
             <div key={message.id} className={`mb-4 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
               <div className={`inline-block p-2 rounded-lg ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
                 {message.role === 'assistant' ? (

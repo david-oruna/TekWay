@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef} from 'react'
 import { useChat } from 'ai/react'
 import { LandingPageComponent } from '@/components/LandingPage'
 import { LearningBoard } from '@/components/LearningBoard'
