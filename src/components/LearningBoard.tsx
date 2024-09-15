@@ -7,16 +7,10 @@ import { Button } from '@/components/ui/button'
 import { MessageCircle, Map } from 'lucide-react'
 import { nanoid } from 'nanoid'
 import { Message } from 'ai'
+import { ChatHelpers } from '../types/chat'
 
-interface ChatHelpers {
-  messages: Message[];
-  input: string;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
-  handleSubmit: (message: string) => void;
-  setInput: React.Dispatch<React.SetStateAction<string>>;
-  reload: () => void;
-}
+
+
 
 interface LearningBoardProps {
   chatHelpers: ChatHelpers;

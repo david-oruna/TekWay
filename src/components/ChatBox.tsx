@@ -48,7 +48,7 @@ export function ChatBoxComponent({ chatHelpers }: { chatHelpers: ChatHelpers }) 
     const lastMessage = messages[messages.length - 1]
     if (lastMessage?.role === 'assistant') {
       setShowLevels(lastMessage.content.toLowerCase().includes('current level'))
-      setShowOptions(lastMessage.content.toLowerCase().includes('looking for'))
+      setShowOptions(lastMessage.content.toLowerCase().includes('what you are looking for'))
     }
   }, [messages])
 
