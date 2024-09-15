@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useChat } from 'ai/react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -11,7 +10,6 @@ import { Moon, Sun, Send, Plus } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { nanoid } from 'nanoid'
 
 
 

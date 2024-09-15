@@ -6,11 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { MessageCircle, CheckCircle } from 'lucide-react'
-import { useChat } from 'ai/react'
-import { nanoid } from 'nanoid'
 import { careerPaths, Skill, CareerPath, SkillCategory } from '../config/career-paths'
-
-import { useEffect } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 

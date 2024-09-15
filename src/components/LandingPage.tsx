@@ -4,7 +4,7 @@ import { useState, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { ChevronDown, Github, HelpCircle, Linkedin, Twitter } from "lucide-react"
+import { ChevronDown, Github, HelpCircle} from "lucide-react"
 import Link from 'next/link'
 
 interface LandingPageProps {
