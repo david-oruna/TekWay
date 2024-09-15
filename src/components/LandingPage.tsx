@@ -60,9 +60,9 @@ export function LandingPageComponent({ onCareerSelect }: LandingPageProps) {
 
       <div className="flex-grow flex flex-col items-center justify-center">
         <header className="text-center mb-12">
-          <h1 className="text-6xl font-bold mb-4 animate-in fade-in slide-in-from-top duration-700">TekWay</h1>
+          <h1 className="text-6xl font-bold mb-4 animate-in fade-in slide-in-from-top duration-700" translate="no">TekWay</h1>
           <p className="text-xl text-muted-foreground animate-in fade-in slide-in-from-bottom duration-700 delay-300">
-            An interactive skill roadmap for your tech career
+            An interactive skill roadmap for your career
           </p>
         </header>
 
@@ -75,7 +75,7 @@ export function LandingPageComponent({ onCareerSelect }: LandingPageProps) {
         </Button>
 
         {showCareerSelect && (
-          <div ref={careerSelectRef} className="mt-24 w-full max-w-md animate-in fade-in slide-in-from-bottom duration-700 relative z-10">
+          <div ref={careerSelectRef} className="mt-24 w-full max-w-md animate-in fade-in slide-in-from-bottom duration-700 relative z-10 bg-white-500">
             <Select onValueChange={handleCareerSelect}>
               <SelectTrigger className="w-full text-lg">
                 <SelectValue placeholder="Select your career path" />
