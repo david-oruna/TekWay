@@ -8,7 +8,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { MessageCircle, CheckCircle } from 'lucide-react'
 import { useChat } from 'ai/react'
 import { nanoid } from 'nanoid'
-import { careerPaths, Skill, CareerPath } from '../config/career-paths'
+import { careerPaths, Skill, CareerPath, SkillCategory } from '../config/career-paths'
+
 import { useEffect } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
@@ -57,19 +58,11 @@ interface RoadmapProps {
 export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
   const { handleSubmit, setMessages } = chatHelpers
   const [selectedButton, setSelectedButton] = useState<string | null>(null)
-  const [isMobile, setIsMobile] = useState(false)
   const [selectedLevel, setSelectedLevel] = useState("1")
 
   const careerPath = careerPaths[careerPathId]
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  
 
 
   if (!careerPath) {
@@ -110,23 +103,30 @@ export function Roadmap({ chatHelpers, careerPathId }: RoadmapProps) {
           </div>
         </div>
         <ScrollArea className="h-[calc(100%-2rem)]">
-          <div className="relative flex flex-col items-center px-12 py-8">
-            {careerPath.skills[selectedLevel].map((skill, index) => (
-              <div
-                key={skill.name}
-                className={`mb-8 ${index % 2 === 0 ? 'self-start' : 'self-end'}`}
-              >
-                <div className="relative">
-                  <CartoonButton
-                    skill={skill}
-                    onClick={() => handleButtonClick(skill.name)}
-                    isSelected={selectedButton === skill.name}
-                  />
-                  {selectedButton === skill.name && (
-                    <div className={`absolute ${index === 0 ? 'top-full mt-2' : 'bottom-full mb-2'} left-1/2 transform -translate-x-1/2 z-10`}>
-                      <FloatingWindow onClose={(option) => handleOptionSelect(option, skill.name)} skill={skill.name} />
+        <div className="relative flex flex-col items-center px-12 py-8">
+            {careerPath.levels[selectedLevel]?.map((category: SkillCategory, categoryIndex: number) => (
+              <div key={category.name} className="w-full mb-8">
+                <div className="flex items-center mb-4">
+                  <div className="flex-grow border-t border-gray-300"></div>
+                  <span className="px-4 text-lg font-semibold">{category.name}</span>
+                  <div className="flex-grow border-t border-gray-300"></div>
+                </div>
+                <div className="flex flex-col justify-center gap-4 ">
+                  {category.skills.map((skill: Skill, skillIndex: number) => (
+                    <div key={skill.name} 
+                    className={`relative mb-5 ${skillIndex % 2 === 0 ? 'self-start' : 'self-end'}`}>
+                      <CartoonButton
+                        skill={skill}
+                        onClick={() => handleButtonClick(skill.name)}
+                        isSelected={selectedButton === skill.name}
+                      />
+                      {selectedButton === skill.name && (
+                        <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 z-10">
+                          <FloatingWindow onClose={(option) => handleOptionSelect(option, skill.name)} skill={skill.name} />
+                        </div>
+                      )}
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
             ))}
@@ -147,7 +147,7 @@ function FloatingWindow({ onClose, skill }: { onClose: (option: string, skill: s
         </Button>
         <Button variant="outline" size="sm" onClick={() => onClose('complete', skill)}>
           <CheckCircle className="w-4 h-4 mr-2" />
-          Complete
+          Mark as complete
         </Button>
       </div>
     </div>

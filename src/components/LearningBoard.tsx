@@ -25,7 +25,7 @@ export function LearningBoard({ chatHelpers, careerPathId }: LearningBoardProps)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  const handleRoadmapInteraction = (message: string) => {
+  const handleInteraction = (message: string) => {
     chatHelpers.setMessages(prevMessages => [
       ...prevMessages,
       { id: nanoid(), role: 'user', content: message }
@@ -38,17 +38,22 @@ export function LearningBoard({ chatHelpers, careerPathId }: LearningBoardProps)
 
   return (
     <div className="w-full h-screen flex flex-col md:flex-row md:items-start md:justify-center md:space-x-4 p-4">
-      <div className={`flex-grow overflow-hidden ${isMobile && activeView !== 'roadmap' ? 'hidden' : 'block'} md:w-5/12 md:h-[calc(100vh-2rem)] bg-background rounded-lg shadow-lg`}>
+      <div className={`flex overflow-hidden ${isMobile && activeView !== 'roadmap' ? 'hidden' : 'block'} md:w-5/12 md:h-[calc(100vh-2rem)] bg-background rounded-lg shadow-lg`}>
         <Roadmap
           chatHelpers={{
-            handleSubmit: handleRoadmapInteraction,
+            handleSubmit: handleInteraction,
             setMessages: chatHelpers.setMessages
           }}
           careerPathId={careerPathId}
         />
       </div>
       <div className={`flex-grow overflow-hidden ${isMobile && activeView !== 'chat' ? 'hidden' : 'block'} md:w-5/12 md:h-[calc(100vh-2rem)] bg-background rounded-lg shadow-lg`}>
-        <ChatBoxComponent chatHelpers={chatHelpers} />
+      <ChatBoxComponent 
+  chatHelpers={{
+    ...chatHelpers,
+    handleSubmit: handleInteraction
+  }} 
+/>
       </div>
       {isMobile && (
         <div className="flex justify-around p-4 bg-background ">
@@ -62,7 +67,7 @@ export function LearningBoard({ chatHelpers, careerPathId }: LearningBoardProps)
           <Button
             variant={activeView === 'chat' ? 'default' : 'outline'}
             onClick={() => setActiveView('chat')}
-            className="w-1/2 ml-2"
+            className="w-1/2 ml-2 z-50"
           >
             <MessageCircle className="mr-2 h-4 w-4" /> Chat
           </Button>

@@ -1,6 +1,6 @@
 export interface Skill {
   name: string;
-  logo: string; // Change this to string, not StaticImageData
+  logo: string; 
 }
 
 
@@ -11,30 +11,28 @@ export interface SkillCategory {
 
 export interface CareerPath {
   name: string;
-  skills: {
-    [key: string]: Skill[];
+  levels: {
+    [key: string]: SkillCategory[];
   };
 }
 
 export const careerPaths: Record<string, CareerPath> = {
   frontend: {
     name: 'Frontend Developer',
-    skills: {
+    levels: {
       '1': [
+        {
+          name:'Basics', 
+
+        skills: [
         { name: 'HTML', logo: '/images/logos/html.png' },
         { name: 'CSS', logo: '/images/logos/css.png' },
         {name: 'JavaScript', logo: '/images/logos/javascript.svg'},
         {name: 'Git / GitHub', logo: '/images/logos/gitforwindows.svg'},
+        ]
+      },
+      ],
 
-      ],
-      '2': [
-        { name: 'JavaScript', logo: '/images/logos/js.png' },
-        { name: 'React Basics', logo: '/images/logos/react.png' },
-      ],
-      '3': [
-        { name: 'Advanced React', logo: '/images/logos/react.png' },
-        { name: 'TypeScript', logo: '/images/logos/typescript.png' },
-      ],
     },
   },
   // ... add more career paths

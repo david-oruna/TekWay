@@ -25,6 +25,12 @@ export function LandingPageComponent({ onCareerSelect }: LandingPageProps) {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-between text-foreground relative overflow-visible">
+    <div className="absolute top-4 left-10 flex items-center space-x-4">
+      <Link href="/" className="flex items-center space-x-2">
+        <img src="/images/logo.svg" alt="TekWay" width={40} height={40} />
+      </Link>
+    </div>
+
       <div className="absolute top-4 right-4 flex items-center space-x-4">
         <Link href="https://github.com/david-oruna/tekway" target="_blank" rel="noopener noreferrer">
           <Button variant="ghost" size="icon">
