@@ -50,7 +50,8 @@ export function LandingPageComponent({ onCareerSelect }: LandingPageProps) {
             <DialogHeader>
               <DialogTitle>About TekWay</DialogTitle>
               <DialogDescription>
-                
+                TechWay is an interactive skill roadmap for your tech career, start by selecting a career path.
+      
               </DialogDescription>
             </DialogHeader>
           </DialogContent>

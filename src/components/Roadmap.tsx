@@ -9,7 +9,6 @@ import { MessageCircle, CheckCircle } from 'lucide-react'
 import { careerPaths, Skill, SkillCategory } from '../config/career-paths'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Message } from 'ai'
-import { ChatHelpers } from './LearningBoard'
 
 function CartoonButton({ skill, onClick, isSelected, isComplete }: { skill: Skill, onClick: () => void, isSelected: boolean, isComplete: boolean }) {
   return (
