@@ -42,7 +42,7 @@ export function LearningBoard({ chatHelpers, careerPathId }: LearningBoardProps)
   }
 
   return (
-    <div className="w-full h-screen flex flex-col md:flex-row md:items-start md:justify-center md:space-x-4 p-4">
+    <div className="w-full h-screen flex flex-col md:flex-row md:items-start md:justify-center md:space-x-4 p-4 pb-20">
       <div className={`flex overflow-hidden ${isMobile && activeView !== 'roadmap' ? 'hidden' : 'block'} md:w-5/12 md:h-[calc(100vh-2rem)] bg-background rounded-lg shadow-lg`}>
         <Roadmap
           chatHelpers={{
