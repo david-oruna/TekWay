@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef} from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useChat } from 'ai/react'
 import { LandingPageComponent } from '@/components/LandingPage'
 import { LearningBoard } from '@/components/LearningBoard'
@@ -20,15 +20,17 @@ export default function Home() {
     ],
   })
 
+  useEffect(() => {
+    if (selectedCareerPath && learningBoardRef.current) {
+      learningBoardRef.current.scrollIntoView()
+    }
+  }, [selectedCareerPath])
+
   const handleCareerSelect = (careerPath: string) => {
     setSelectedCareerPath(careerPath)
-    setTimeout(() => {
-      if (learningBoardRef.current) {
-        smoothScrollTo(learningBoardRef.current.offsetTop, 1000)
-      }
-    }, 100)
   }
 
+/** 
   const smoothScrollTo = (targetPosition: number, duration: number) => {
     const startPosition = window.pageYOffset
     const distance = targetPosition - startPosition
@@ -48,10 +50,11 @@ export default function Home() {
       t--
       return -c / 2 * (t * (t - 2) - 1) + b
     }
+  
 
     requestAnimationFrame(animation)
   }
-
+  **/
   return (
     <div>
       <LandingPageComponent onCareerSelect={handleCareerSelect} />
